@@ -202,6 +202,45 @@ the failure reason recorded in the file's frontmatter (`status: partial`,
 
 ---
 
+## Claude Code Integration
+
+This repo is set up to work with [Claude Code](https://claude.ai/code) as a
+development partner, not just for writing the pipeline itself.
+
+**`CLAUDE.md`**
+A root-level context file that gives Claude Code an architectural map of the
+repo on every session — the four-stage pipeline flow (intake → orchestrator →
+dynamic agent loop → assembly), the markdown-as-agent-prompt pattern, the
+coupling between `agents/orchestrator.md`'s agent list and `validation_map`
+in `main.py`, and the steps to follow when adding a new specialist agent.
+
+**`pipeline-reviewer` skill**
+A custom skill at `.claude/skills/pipeline-reviewer.md` that audits the
+pipeline's architecture on demand. When invoked, it reads `main.py` and
+every file in `agents/`, cross-checks them against each other (orchestrator's
+deployable agent list vs. actual files, `validation_map` coverage vs. each
+agent's declared output sections, failure-mode handling), and produces a
+structured critique: an overall score out of 10, top 3 strengths, top 5
+weaknesses each with a specific recommendation, and a prioritized action
+list of what to build next.
+
+To invoke it in a Claude Code session, ask Claude to "run the
+pipeline-reviewer skill" (or reference it directly as `/pipeline-reviewer`
+once registered for the session).
+
+The skill has been run twice so far, tracking real architectural progress:
+- **Initial review: 6/10** — flagged cosmetic output validation, no error
+  handling around the Anthropic API call, silent orchestrator fallbacks,
+  a one-size-fits-all token budget, and silently-skipped agents.
+- **After resilience improvements: 7/10** — confirmed the retry/backoff
+  and partial-save changes (see *Resilience & Error Handling* above)
+  resolved the top-priority weakness for transient API failures, while
+  surfacing one residual gap (non-retryable errors, like a bad API key,
+  still bypass the partial-save path) plus the four other weaknesses
+  that remain open for future iterations.
+
+---
+
 ## Tech Stack
 
 - Python 3.11
