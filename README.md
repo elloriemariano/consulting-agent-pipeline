@@ -181,6 +181,27 @@ iterate.
 
 ---
 
+## Resilience & Error Handling
+
+**Retry with backoff**
+Every agent call goes through the Anthropic API, which can fail
+transiently — rate limits, timeouts, connection drops, server-side
+overload. `call_agent` retries these specific errors up to 3 times
+with exponential backoff (2s, 4s, 8s) before giving up. Non-retryable
+errors (bad request, authentication failure) fail immediately instead
+of wasting retries on something that will never succeed.
+
+**Partial save on failure**
+Each agent call is a paid, completed piece of work — losing it because
+a *later* agent failed would throw away real progress. If an agent
+exhausts its retries, the pipeline doesn't crash with nothing to show:
+it assembles a brief from whatever sections did complete and saves it
+to `outputs/` as `partial_brief_*.md` (instead of `brief_*.md`), with
+the failure reason recorded in the file's frontmatter (`status: partial`,
+`failure_reason: ...`) so it's clear afterward what ran and what didn't.
+
+---
+
 ## Tech Stack
 
 - Python 3.11
