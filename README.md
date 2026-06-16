@@ -32,7 +32,7 @@ Iterated on each limitation:
 - Added **formatted timestamped reports** to outputs folder
 
 ### Version 3 — Dynamic Orchestration
-The biggest architectural leap. Replaced the hardcoded 
+Replaced the hardcoded 
 sequence with a true orchestrator agent — an LLM that reads 
 each problem and dynamically decides which agents to deploy.
 
@@ -237,5 +237,5 @@ was the jump from a prompt chain to a genuine agent system.
 ## Built By
 
 Ellorie Mariano
-USC Marshall School of Business | Applied Analytics Minor
+USC Marshall School of Business | Applied Analytics & Web Development Minors
 Built: June 2026
