@@ -1,3 +1,11 @@
+## About This Project
+
+This project was developed as a hands-on exploration of agentic AI workflows, dynamic orchestration, and prompt engineering. The goal was not to build a production-ready system, but rather to better understand how specialized AI agents can collaborate to solve complex business problems.
+
+The implementation demonstrates core concepts such as agent specialization, orchestration, context design, human-in-the-loop validation, and structured output generation. Several components are intentionally simplified, and there are many opportunities for future enhancements, including expanded retrieval capabilities, more robust evaluation frameworks, and production-grade deployment patterns.
+
+The project is best viewed as a prototype used to explore how multi-agent architectures may support business decision-making workflows.
+
 # Consulting Agent Pipeline
 
 An AI-powered multi-agent consulting pipeline built with the 
